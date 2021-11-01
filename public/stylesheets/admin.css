@@ -1,0 +1,52 @@
+
+.containers{
+    display: flex;
+    justify-content: flex-start;
+}
+.containers .containers_left{
+    width: 20vw;
+    height: 100vh;
+    background-color: rgba(233, 231, 231, 0.432);
+}
+
+.containers .containers_right{
+    width: 80vw;
+
+    display: flex;
+    flex-direction:column;
+    
+    
+}
+.containers .containers_right .container_right_child{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    flex-direction: row-reverse;
+   
+}
+.containers .containers_right .container_right_child>div{
+    margin-right: 20px;
+}
+
+.containers .containers_right .mains{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.containers .containers_right .mains .ifrs{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+.containers .containers_right .mains .ufrs{
+    width: 100%;
+    height: 100%;
+}
+.nav-pills>li>a {
+    border-radius: 0px;
+}
+
+
+
+

@@ -1,0 +1,109 @@
+.container-fluid{
+    padding: 0;
+}
+ul,li{
+    list-style: none;
+}
+.logo-img{
+    margin-top: 20px;
+}
+
+.nav{
+    height: 100px;
+    text-align: center;
+    line-height: 80px;
+    font-size: 14px;
+    
+}
+.nav>li>a{
+    color: white;
+}
+.divs{
+    background: url(../images/slider_division.jpg) no-repeat center center;
+    background-attachment: local  ;
+    width: 100%;
+    height: 505px;
+}
+.Explosion-float{
+    position: absolute;
+    top: 40px;
+    left: 0;
+    text-align: center; 
+}
+.Explosion-float>span{
+    display: block;
+}
+.main_li{
+    height: auto;
+    margin-bottom: 100px;
+}
+.main_li_h5{
+    font-size: 32px;
+    margin: 50px 0;
+}
+.foot_a{
+    height: 250px;
+}
+.foot_a a{
+    color: rgb(80, 77, 77);
+    text-decoration: none;
+    
+    
+}
+.foot_a a:hover{
+    color: rgb(0, 0, 0);
+}
+.widgets>div>p{
+    
+    margin: 0 0 10px;
+    line-height: 25px;
+
+}
+.jb-footer-links>li{
+    
+    margin: 0 0 10px;
+    line-height: 20px;
+
+}
+.module-title{
+    font-size: 30px;
+    margin-bottom: 10px;
+    padding-bottom: 17px;
+}
+
+
+
+
+.nav_top{
+    font-size: 34px;
+    text-align: center;
+    color: white;
+    margin-top:20px ;  
+}
+.headers{
+    position: relative;
+}
+.headers .nav_drop{
+    height: 1000px;
+    display: none;
+    padding: 0;
+    position: absolute;
+    top: 73px;
+    left: 0;
+    z-index: 2;
+    background: white;
+}
+
+.headers .nav_drop a{
+    background: white;
+    color: black;
+}
+.headers .nav_drop li{
+    background: white;
+    border-bottom: 1px solid rgba(166, 167, 165,0.5);
+    color: white;
+    padding: 0;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}

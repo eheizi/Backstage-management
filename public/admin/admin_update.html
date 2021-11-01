@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<style>
+    body,
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .box {
+        width: 300px;
+        height: 400px;
+
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="box ">
+            <form action="/login" method="POST" class="formm">
+                <h5 class="text-center ">修改用户信息</h5>
+                <div class="form-group">
+                    <label for="account">account</label>
+                    <input type="text" class="form-control" id="account" placeholder="account" name="account">
+                </div>
+                <div class="form-group">
+                    <label for="phone">phone</label>
+                    <input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password" name="password">
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class=" btn btn-success btn-md">确认</button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    $(function () {
+        //获取当前用户信息并将表单placeholder根据数据库修改
+        $.get('/admin/userinfo', (res) => {
+            $("input").map((idx, val) => {
+                $(val).attr("placeholder", res.data[$(val).attr("id")])
+            });
+        })
+        $(".formm").submit(function (event) {
+            event.preventDefault()
+            var data = $(".formm").serialize();
+            $.post('/admin/updateuser', data, (res) => {
+                //获取父级元素
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.msg(res.msg);
+               if(res.success){
+                    // 延迟0.5s
+                setTimeout(() => {
+                    //重新刷新页面并关闭页面
+                    parent.location.href = "/admin.html";
+                    parent.layer.close(index);
+                }, 500);
+               }
+            })
+        })
+
+
+        //前端验证表单为了体验
+
+    })
+</script>
+
+
+</html>
+
+

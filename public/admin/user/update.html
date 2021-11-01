@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="//unpkg.com/layui@2.6.8/dist/css/layui.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/layui/2.6.8/layui.js"></script>
+<style>
+    body,
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .box {
+        width: 300px;
+        height: 400px;
+
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="box ">
+            <form class="layui-form formm" style="padding: 15px;" >
+                <div class="form-group">
+                    <label for="account">account</label>
+                    <input type="text" class="form-control" id="account" placeholder="account" name="account">
+                </div>
+                <div class="form-group">
+                    <label for="phone">phone</label>
+                    <input type="text" class="form-control" id="phone" placeholder="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="email">email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password" name="password">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">激活</label>
+                      <div class="layui-input-block">
+                        <input type="checkbox" name="isActive" lay-skin="switch" lay-text="激活|取消"  id="isActive" value=true  class="isActive">
+                      </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">显示</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="show" lay-skin="switch" lay-text="显示|取消"  id="show" value=true  class="isActive">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg btn-block">提交</button>
+              </form>
+            
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    $(function () {
+        //获取session中的数据并同步到页面
+       
+        const serch = location.search.replace("?","")
+        console.log(serch)
+        $.get('/admin/userinfos/' + serch,(res)=>{
+            if(res.success){
+                //遍历页面中的input
+                $("input.form-control").map((ind,val)=>{
+                    //获取res.data并设置到placeholder中
+                    $(val).attr("placeholder",res.data[$(val).attr("name")]);
+                    
+                })
+                //获取页面中input类型为checkbox值
+                $("input.isActive").map((ind,val)=>{
+                   //判断res.data中的值为true则添加class和修改文本
+                   const arr = ["激活","显示"]
+                    if(res.data[$(val).attr("name")] === true){
+                        $(val).next().addClass("layui-form-onswitch");
+
+                        //设置checked为true
+                        $(val).attr("checked",true)
+                        
+                        $(val).next().children().first().text(arr[ind])
+                       
+                    }
+                })
+                
+                $(".formm").submit(function (event) {
+                    event.preventDefault();
+                    var data = $(".formm").serialize() + "&id=" + res.data._id
+                    console.log(data)
+                    $.post('/admin/user/update',data,(res) => {
+                    //获取父级元素
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.msg(res.msg);
+                    setTimeout(() => {
+                        //重新刷新页面并关闭页面
+                        //跳回到原来的页面
+                        parent.location.href = "../admin_list.html";
+                        parent.layer.close(index);
+                    }, 500);
+                    })
+                })
+            }
+        })
+    
+      
+
+
+        //前端验证表单为了体验
+
+    })
+</script>
+
+
+</html>
+
+

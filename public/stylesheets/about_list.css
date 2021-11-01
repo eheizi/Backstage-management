@@ -1,0 +1,18 @@
+
+        .abouts{
+            background: url(/images/green.jpg) repeat-y 25% top; ;
+        }
+        .abouts .container_rows{
+            
+            height: 100px;
+        }
+        .abouts .container_rows li{
+            line-height: 30px;
+            list-style: none;
+        }
+        .abouts .container_rows .cols{
+            background: url(/images/yuan.jpg) no-repeat 99% center;
+            font-size: 22px;
+            padding-right: 35px;
+            text-align: right;
+        }

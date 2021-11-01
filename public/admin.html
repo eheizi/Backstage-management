@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理页面</title>
+  <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js" type="text/javascript"
+    charset="utf-8"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="stylesheets/admin.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+
+
+</head>
+
+<body>
+  <div class="containers">
+    <div class="containers_left">
+      <h5 class="nav nav-pills ">
+        <li role="presentation" class="active"><a href="#">Home</a></li>
+      </h5>
+      <ul class="nav nav-pills nav-stacked nav_option">
+        <li role="presentation" class="active"><a href="#admin/admin_list.html">列表信息</a></li>
+        <li role="presentation"><a href="#admin/admin_userinfo.html">用户信息</a></li>
+
+
+      </ul>
+    </div>
+    <div class="containers_right">
+      <div class="container_right_child">
+        <div>
+          <div class="dropdown">
+            <button id="btn_name" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <i class="glyphicon glyphicon-user"></i>
+              <span class="user">Dropdown</span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a href="#/admin/admin_userinfo.html" class="userinfos">个人信息</a></li>
+              <li class="update_passowrd"><a href="#" name="">修改信息</a></li>
+
+              <li role="separator" class="divider"></li>
+              <li><a href="#admin/upload" class="upload">头像上传</a></li>
+              <li><a href="/admin/sinout" class="singout">退出账号</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <main class="mains">
+        <iframe class="ifrs" src="/admin/admin_list.html" frameborder="0"></iframe>
+      </main>
+    </div>
+    <div></div>
+  </div>
+
+</body>
+
+</html>
+<script>
+  $(function () {
+    //个人信息
+
+   const userinfo= $.get("/admin/userinfo", (res) => {
+     if (res.success) {
+
+        $(".user").text(res.data.account)
+        return res.data
+      } else {
+        layer.alert(res.msg)
+      }
+    
+    })
+    
+    //修改个人信息
+    $(".update_passowrd").click(async function(){
+          layer.open({
+          type: 2,
+          title: '修改个人用户信息。',
+          shadeClose: true,
+          shade: false,
+          maxmin: true, //开启最大化最小化按钮
+          area: ['340px', '500px'],
+          content: './admin/admin_update.html',
+        }, function () {
+
+        });
+        })
+   
+    //上传头像
+    $(".upload").click(async function(){
+          layer.open({
+          type: 2,
+          title: '上传头像。',
+          shadeClose: true,
+          shade: false,
+          maxmin: true, //开启最大化最小化按钮
+          area: ['340px', '500px'],
+          content: './admin/admin_upload.html',
+        }, function () {
+
+        });
+        })
+    //切换页面
+    function switchsrc(user, link) {
+      $(user).click(function () {
+        var link = $(this).attr("href").replace("#", "")
+        $(".ifrs").attr("src", link)
+
+      })
+
+    }
+
+    //切换用户信息页面
+    switchsrc(".userinfos")
+   
+
+
+    //切换home导航
+    $(".nav_option").children().map((ind, val) => {
+      $(val).click(function () {
+        var link = $(this).children().attr("href").replace("#", "")
+        $(".ifrs").attr("src", link)
+        $(this).addClass("active")
+        $(this).siblings().removeClass("active")
+      })
+    })
+
+
+
+  })
+</script>

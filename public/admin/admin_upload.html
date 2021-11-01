@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>
+<style>
+    body,
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .box {
+        width: 300px;
+        height: 400px;
+
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="box ">
+            <form  enctype="multipart/form-data" class="formm">
+                <h5 class="text-center ">上传头像信息</h5>
+                <div class="form-group">
+                    <label for="upload">上传图片格式文件</label>
+                    <input type="file" id="upload" name="upload">
+                    <p class="help-block">请勿要上传其他格式文件</p>
+                  </div>
+               
+                <div class="form-group text-center">
+                    <button type="submit" class=" btn btn-success btn-md" >确认</button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+<script>
+    $(function () {
+        
+     
+        
+        $(".btn").click(function (e) {
+            event.preventDefault()
+            $.ajax({
+                url: '/admin/upload',
+                type: 'POST',
+                cache: false,//cache设置为false，上传文件不需要缓存
+                data: new FormData($(".formm")[0]),//
+                processData: false,//设置为false 不需要对数据做处理 因为是formdata
+                contentType: false,//因为表单设置了enctype="multipart/form-data"所以为false
+                complete:function(res){
+                     //获取父级元素
+                     var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.msg(res.responseJSON.msg);
+                    // 延迟0.5s
+                    setTimeout(() => {
+                        //重新刷新页面并关闭页面
+                        parent.location.href = "/admin.html";
+                        parent.layer.close(index);
+                    }, 500);
+                }
+            })    
+        })
+
+       
+
+    })
+</script>
+
+
+</html>

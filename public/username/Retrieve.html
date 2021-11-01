@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.0/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.5.1/layer.js"></script>   
+<title>Document</title>
+    <style>
+      .box{
+        width: 600px;
+        margin: 100px auto;
+      }
+    </style>
+</head>
+<body>
+    <div class="box">
+      <form  id="form" >
+        <form class="form-horizontal">
+          <h5 class="col-lg-12 text-center">找回密码</h5>
+          <div class="form-group clearfix">
+            <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+            <div class="col-sm-6">
+              <input name="email" type="email" class="form-control" id="email" placeholder="请输入您的邮箱" >
+              
+            </div>
+            <button class="btn btn-success btn_send">发送验证码</button>
+          </div>
+          <div class="form-group clearfix">
+            <label for="textcaptcha" class="col-sm-2 control-label">验证码：</label>
+            <div class="col-sm-6">
+              <input name="textcaptcha" type="text" class="form-control" id="textcaptcha" placeholder="请输入您的验证码" >
+              
+            </div>
+            
+          </div>
+         
+         
+          <div class="form-group" style="margin-top: 20px;">
+            <div class=" col-sm-12">
+              <button type="submit" class="btn btn-danger btn-block">确认</button>
+            </div>
+          </div>
+
+        </form>
+      </form> 
+    </div>
+</body>
+<script>
+  $(function(){
+    //------------------验证表单并发送验证码
+    $(".btn_send").click(function(){
+      //限制客户不能持续发送验证码 每60s发送一次
+      let email = $("#email").val()
+      if(!email){
+        alert("你在想啥？ 请输入您的邮箱")
+        return 
+      }
+      $(this).attr("disabled","disabled")
+      let i = 60;      
+      var inter = setInterval(() => {
+        $(this).text("发送验证码"+ i +"s")
+          if(i == 0){
+            clearInterval(inter)
+            $(this).text("发送验证码")
+            $(this).attr("disabled",false)
+          }
+          i--
+      }, 1000);
+      
+    
+        $.get('/getpassword?email=' + email,(res)=>{
+         
+          if(res.success){
+            layer.alert(res.msg,{icon:1})
+            
+          }else{
+            layer.alert(res.msg,{icon:2})
+          }
+        })
+     
+      
+    })
+    //------------------验证表单以及验证码返回是否正确
+    $(".btn-block").click(function(ev){
+      ev.preventDefault()
+      var data = $("#form").serialize()
+
+      if(data == 'email=&captcha='){
+        alert("请输入有效信息")
+      }
+
+     $.post('/sendpassword',data,(res)=>{
+       if(res.success){
+         location.href='./repassword.html'
+       }else{
+         layer.alert(res.msg,{icon:2})
+       }
+     })
+     
+      
+      
+      
+    })
+  })
+</script>
+</html>
